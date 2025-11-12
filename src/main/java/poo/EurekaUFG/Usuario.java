@@ -1,3 +1,5 @@
+package poo.EurekaUFG;
+
 public class Usuario {
     private int id;
     private String nome;

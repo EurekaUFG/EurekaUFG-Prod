@@ -1,3 +1,5 @@
+package poo.EurekaUFG;
+
 public class Match {
     private int id;
     private ItemPerdido itemPerdido;

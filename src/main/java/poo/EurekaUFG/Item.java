@@ -1,3 +1,5 @@
+package poo.EurekaUFG;
+
 import java.time.LocalDate;
 
 public abstract class Item {

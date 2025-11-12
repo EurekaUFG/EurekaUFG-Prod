@@ -1,3 +1,5 @@
+package poo.EurekaUFG;
+
 public enum StatusItem {
     PERDIDO, 
     ENCONTRADO, 
