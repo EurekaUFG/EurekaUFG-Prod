@@ -17,18 +17,20 @@ public class EurekaUfgApplication {
 
     @GetMapping("/listTodos")
     public List<Item> listTodos() {
-
         ItemDAO itemDAO = new ItemDAO();
         List<Item> itens = null;
+
         try {
             itens = itemDAO.listTodos();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         System.out.println(itens);
-        return itens;
 
+        return itens;
     }
+
+
 
 
 }
