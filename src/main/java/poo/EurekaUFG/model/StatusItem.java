@@ -1,4 +1,4 @@
-package poo.EurekaUFG;
+package poo.EurekaUFG.model;
 
 public enum StatusItem {
     ENCONTRADO, 
