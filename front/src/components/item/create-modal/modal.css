@@ -1,0 +1,79 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 999;
+}
+
+.modal-body {
+    background: #ffffff;
+    padding: 32px;
+    width: 100%;
+    max-width: 520px;           /* largura máxima */
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    max-height: 90vh;           /* o modal nunca sai da tela */
+    overflow-y: auto;           /* ativa scroll interno se necessário */
+}
+
+.modal-body h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-body input {
+    padding: 12px;
+    border: 2px solid #d7d7d7;
+    font-size: 16px;
+    border-radius: 10px;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.modal-body input:focus {
+    border-color: #3f51ff;
+    outline: none;
+}
+
+.modal-body label {
+    color: #333;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.btn-secondary {
+    background-color: #3f51ff;
+    color: white;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #303fca;
+    transform: scale(1.02);
+}
