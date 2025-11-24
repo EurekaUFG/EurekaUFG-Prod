@@ -2,11 +2,12 @@ package poo.EurekaUFG.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import poo.EurekaUFG.model.dto.ItemRequestDTO;
 import poo.EurekaUFG.model.entity.Item;
-import poo.EurekaUFG.model.entity.StatusItem;
+import poo.EurekaUFG.model.entity.LocalDeixou;
 import poo.EurekaUFG.repositories.ItemRepository;
 
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,23 +32,51 @@ public class ItemController {
         return itemRepository.findAll();
     }
 
-    @PostMapping(consumes = {"multipart/form-data"})
-    public ResponseEntity<String> createItem(@ModelAttribute ItemRequestDTO data) throws IOException {
+    @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<String> createItem(
+            @RequestParam("nome") String nome,
+            @RequestParam("descricao") String descricao,
+            @RequestParam("localAchou") String localAchou,
+            @RequestParam("localDeixou") String localDeixou,
+            @RequestParam("data") String data,
+            @RequestParam("matriculaAchou") String matriculaAchou,
+            @RequestParam("imagem") MultipartFile imagemFile
+    ) throws IOException {
 
-        MultipartFile imagemFile = data.imagem();
+        // Validação simples da imagem
+        if (imagemFile == null || imagemFile.isEmpty()) {
+            return ResponseEntity.badRequest().body("Imagem é obrigatória");
+        }
 
         // Pasta para salvar as imagens
         String uploadDir = "uploads/";
         File dir = new File(uploadDir);
-        if (!dir.exists()) dir.mkdirs();
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
 
-        // Nome único
+        // Nome único para o arquivo
         String fileName = UUID.randomUUID() + "_" + imagemFile.getOriginalFilename();
         Path filePath = Paths.get(uploadDir, fileName);
         Files.copy(imagemFile.getInputStream(), filePath);
 
-        // Cria o item usando construtor que recebe o caminho da imagem
-        Item item = new Item(data, filePath.toString());
+        // Converter os tipos que o DTO espera
+        LocalDeixou localDeixouEnum = LocalDeixou.valueOf(localDeixou); // ex: "REITORIA"
+        LocalDate dataConvertida = LocalDate.parse(data);               // ex: "2025-11-24"
+
+        // Montar o DTO a partir dos parâmetros recebidos
+        ItemRequestDTO dto = new ItemRequestDTO(
+                nome,
+                descricao,
+                localAchou,
+                localDeixouEnum,
+                dataConvertida,
+                matriculaAchou,
+                imagemFile
+        );
+
+        // Criar a entidade usando o construtor existente
+        Item item = new Item(dto, filePath.toString());
 
         itemRepository.save(item);
 

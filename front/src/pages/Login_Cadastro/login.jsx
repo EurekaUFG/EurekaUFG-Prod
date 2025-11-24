@@ -1,10 +1,11 @@
+import { useState } from "react";
+
 export default function Login() {
   const [Email, setEmail] = useState("");
   const [usuario, setUsuario] = useState("");
   const [matricula, setMatricula] = useState("");
   const [senha, setSenha] = useState("");
   const [mensagem, setMensagem] = useState("");
-  
 
   const fazerLogin = async (e) => {
     e.preventDefault();
@@ -15,59 +16,63 @@ export default function Login() {
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, senha })
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Email, usuario, matricula, senha }),
       });
 
       if (response.ok) {
         setMensagem("Login realizado com sucesso!");
       } else {
-        setMensagem("Usuário ou senha incorretos.");
+        setMensagem("Erro ao realizar login. Verifique suas credenciais.");
       }
     } catch (error) {
-      setMensagem("Erro ao conectar ao servidor.");
+      console.error("Erro na requisição:", error);
+      setMensagem("Erro ao conectar com o servidor.");
     }
   };
 
   return (
     <div style={styles.container}>
-      <form onSubmit={fazerLogin} style={styles.card}>
-        <h2>Cadastro</h2>
+      <form style={styles.card} onSubmit={fazerLogin}>
+        <h2>Login</h2>
 
         <input
-          type="text"
-          placeholder="Email"
+          style={styles.input}
+          type="email"
+          placeholder="E-mail"
           value={Email}
           onChange={(e) => setEmail(e.target.value)}
-          style={styles.input}
         />
 
         <input
+          style={styles.input}
           type="text"
-          placeholder="Nome"
+          placeholder="Usuário"
           value={usuario}
           onChange={(e) => setUsuario(e.target.value)}
-          style={styles.input}
         />
+
         <input
+          style={styles.input}
           type="text"
           placeholder="Matrícula"
           value={matricula}
           onChange={(e) => setMatricula(e.target.value)}
-          style={styles.input}
         />
 
         <input
+          style={styles.input}
           type="password"
           placeholder="Senha"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
-          style={styles.input}
         />
 
         <button style={styles.button}>Entrar</button>
 
-       <button style={styles.link}>Logar</button>
+        <button style={styles.link}>Logar</button>
         {mensagem && <p>{mensagem}</p>}
       </form>
     </div>
@@ -81,7 +86,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     background: "#f8f8f8ff",
-  },  
+  },
   card: {
     background: "#ffffffff",
     padding: 30,
@@ -94,7 +99,6 @@ const styles = {
   },
   input: {
     padding: 10,
-    fontSize: 16,
     borderRadius: 4,
     border: "1px solid #ccc"
   },
@@ -106,7 +110,7 @@ const styles = {
     borderRadius: 4,
     cursor: "pointer"
   },
-  
+
   link:{
     padding: 10,
     border: "none",
@@ -114,5 +118,5 @@ const styles = {
     color: "#fff",
     cursor: "pointer"
   }
-  
+
 };
