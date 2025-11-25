@@ -1,4 +1,5 @@
 import React from "react";
+import { LocalDeixou } from "../../../enums/LocalDeixou";
 
 const ItemDetailsModal = ({ item, onClose }) => {
   if (!item) return null;
@@ -48,7 +49,7 @@ const ItemDetailsModal = ({ item, onClose }) => {
               <span className="font-semibold text-gray-700">
                 Local deixado:
               </span>{" "}
-              {item.localDeixou || "—"}
+              {item.localDeixou ? LocalDeixou[item.localDeixou] : "—"}
             </p>
 
             <p>

@@ -11,6 +11,7 @@ import { useAuth } from '../../context/AuthContext';
 import LoginModal from '../../components/item/create-modal/login_modal';
 import CadastroModal from '../../components/item/create-modal/cadastro_modal';
 import ItemDetailsModal from '../../components/item/create-modal/item_detalhe_modal';
+import { LocalDeixou } from "../../enums/LocalDeixou";
 
 export default function Home() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -204,7 +205,7 @@ export default function Home() {
                       {item.descricao}
                     </p>
                     <div className="text-xs text-slate-500">
-                      <strong>Local deixado:</strong> {item.localDeixou}
+                      <strong>Local deixado:</strong> {item.localDeixou ? LocalDeixou[item.localDeixou] : "—"}
                     </div>
                     <div className="text-xs text-slate-500">
                       <strong>Data:</strong>{" "}
