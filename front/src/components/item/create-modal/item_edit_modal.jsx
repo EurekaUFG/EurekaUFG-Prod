@@ -9,11 +9,18 @@ const EditItemModal = ({ item, onClose }) => {
   const [statusItem, setStatusItem] = useState(item.statusItem || "ENCONTRADO");
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState("");
+  const [matriculaPerdeu, setMatriculaPerdeu] = useState(item.matriculaPerdeu || "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSalvando(true);
     setErro("");
+
+    if (statusItem === "DEVOLVIDO" && !matriculaPerdeu.trim()) {
+      setErro("Para marcar como DEVOLVIDO, informe a matrícula de quem perdeu o item.");
+      setSalvando(false);
+      return;
+    }
 
     try {
       const response = await fetch(`http://localhost:8080/itens/${item.id}`, {
@@ -27,6 +34,7 @@ const EditItemModal = ({ item, onClose }) => {
           localAchou,
           localDeixou,
           statusItem,
+          matriculaPerdeu,
         }),
       });
 
@@ -135,6 +143,26 @@ const EditItemModal = ({ item, onClose }) => {
               <option value="CANCELADO">Cancelado</option>
             </select>
           </div>
+
+          <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            Matrícula de quem perdeu
+            {statusItem === "DEVOLVIDO" && (
+              <span className="text-red-500 ml-1">*</span>
+            )}
+          </label>
+          <input
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+            value={matriculaPerdeu}
+            onChange={(e) => setMatriculaPerdeu(e.target.value)}
+            placeholder="Ex: 202312345"
+          />
+          {statusItem === "DEVOLVIDO" && (
+            <p className="mt-1 text-xs text-gray-500">
+              Obrigatório ao marcar o item como devolvido.
+            </p>
+          )}
+        </div>
 
           <div className="mt-6 flex justify-end gap-2">
             <button

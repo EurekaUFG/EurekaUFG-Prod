@@ -89,6 +89,7 @@ public class ItemController {
         item.setLocalAchou(itemAtualizado.getLocalAchou());
         item.setLocalDeixou(itemAtualizado.getLocalDeixou());
         item.setStatusItem(itemAtualizado.getStatusItem());
+        item.setMatriculaPerdeu(itemAtualizado.getMatriculaPerdeu());
         // se quiser permitir alterar outros campos, adicione aqui
 
         Item salvo = itemRepository.save(item);
