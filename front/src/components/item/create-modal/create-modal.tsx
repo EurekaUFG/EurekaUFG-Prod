@@ -91,7 +91,16 @@ export function CreateModal({ closeModal }: ModalProps) {
             }
           }}
         />
+
+
       </div>
+
+
+        <input
+          placeholder="Local encontrado"
+          value={localAchou}
+          onChange={e => setLocalAchou(e.target.value)}
+        />
 
         <div className="input-container">
           <div className="select-wrapper">

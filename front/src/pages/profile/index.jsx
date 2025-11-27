@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
-import avatarPadrao from "../../assets/me_bebe_laranja-1.webp";
+import avatarPadrao from "../../assets/pessoa.jpg";
 
 const Profile = () => {
     const { logout, user } = useAuth();
@@ -161,20 +161,7 @@ const Profile = () => {
                                     <p className="font-medium text-gray-500">{userData.matricula}</p>
                                 )}
                             </div>
-
-                            {/* Curso */}
-                            {isEditing && (
-                                <div>
-                                    <label className="block text-sm text-gray-600">Curso</label>
-                                    <input
-                                        type="text"
-                                        name="curso"
-                                        value={tempData.curso}
-                                        onChange={handleChange}
-                                        className="font-medium border border-gray-300 rounded p-1 w-full mt-1"
-                                    />
-                                </div>
-                            )}
+                            
                         </div>
                     </div>
 
