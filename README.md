@@ -111,5 +111,3 @@ O frontend estará acessível em:
 http://localhost:3000
 ```
 
-```
-
