@@ -51,12 +51,16 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
+
+
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-blue-600 p-2">
                 <span role="img" aria-label="buscar">🔍</span>
               </div>
               <h1 className="text-2xl font-bold text-slate-900">Achados &amp; Perdidos</h1>
             </div>
+
+
             <div className="flex items-center gap-3">
               {authenticated? (
               <button
@@ -64,7 +68,7 @@ export default function Home() {
                 onClick={() => setIsCreateOpen(true)}
               >
                 <span>➕</span>
-                <span className="hidden sm:inline">Reportar Item</span>
+                <span className="hidden sm:inline"> Reportar Item</span>
                 
               </button>
               ):(
@@ -73,7 +77,7 @@ export default function Home() {
                 onClick={() => setIsLoginOpen(true)}
               >
                 <span>➕</span>
-                <span className="hidden sm:inline">Reportar Item</span>
+                <span className="hidden sm:inline"> Reportar Item</span>
                 
               </button>
 
@@ -82,11 +86,16 @@ export default function Home() {
             {authenticated ? (
                /* SE ESTIVER LOGADO: Mostra botão Minha Conta e o Nome */
                <div className="flex gap-4 items-center">
-                 <span>Olá, {user?.nome}</span>
-                 <Link to="/minha-conta">
+                  <Link to="/minha-conta">
                     <button className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Minha Conta</button>
-                 </Link>
-               </div>
+                  </Link>
+                  <span>Olá, {user?.nome}!</span>
+                  <img 
+                    src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" 
+                    alt="hand waving" 
+                    className="w-6 h-6 -ml-3"
+                  />
+                </div>
             ) : (
                /* SE ESTIVER DESLOGADO: Mostra botão Entrar */
                /*onClick={handleLoginFake} className="bg-gray-800 text-white px-4 py-2 rounded"> so que escrito abaixo de button*/

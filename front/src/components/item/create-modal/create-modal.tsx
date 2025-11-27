@@ -13,7 +13,7 @@ export function CreateModal({ closeModal }: ModalProps) {
   const [descricao, setDescricao] = useState("");
   const [imagem, setImagem] = useState<File | null>(null);
   const [localAchou, setLocalAchou] = useState("");
-  const [localDeixou, setLocalDeixou] = useState<LocalDeixou>(LocalDeixou.REITORIA);
+  const [localDeixou, setLocalDeixou] = useState<LocalDeixou | "">("");
   const [data, setData] = useState("");
   const [matriculaAchou, setMatriculaAchou] = useState("");
 
@@ -69,30 +69,48 @@ export function CreateModal({ closeModal }: ModalProps) {
           value={descricao}
           onChange={e => setDescricao(e.target.value)}
         />
+
+      <div className="file-wrapper">
+        {/* Campo VISUAL, igual aos outros inputs */}
+        <div
+          className={`fake-file-input ${imagem ? "has-file" : ""}`}
+          onClick={() => document.getElementById("real-file-input")?.click()}
+        >
+          {imagem ? imagem.name : "Selecione uma imagem"}
+        </div>
+
+        {/* Input REAL, escondido, que abre o seletor de arquivos */}
         <input
+          id="real-file-input"
           type="file"
           accept="image/*"
-          onChange={e =>
-            e.target.files && setImagem(e.target.files[0])
-          }
+          style={{ display: "none" }}
+          onChange={e => {
+            if (e.target.files && e.target.files[0]) {
+              setImagem(e.target.files[0]);
+            }
+          }}
         />
-        <input
-          placeholder="Local onde foi achado"
-          value={localAchou}
-          onChange={e => setLocalAchou(e.target.value)}
-        />
+      </div>
 
-        <label>Local deixado</label>
-        <select
-          value={localDeixou}
-          onChange={e => setLocalDeixou(e.target.value as LocalDeixou)}
-        >
-          {Object.entries(LocalDeixou).map(([key, label]) => (
-            <option key={key} value={key}>
-              {label}
-            </option>
-          ))}
-        </select>
+        <div className="input-container">
+          <div className="select-wrapper">
+            <select
+              className="styled-select"
+              value={localDeixou}
+              onChange={e => setLocalDeixou(e.target.value as LocalDeixou)}
+            >
+              <option value="" disabled>Local deixado</option>
+              {Object.entries(LocalDeixou).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+
 
 
         <input

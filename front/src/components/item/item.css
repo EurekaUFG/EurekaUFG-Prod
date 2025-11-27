@@ -14,3 +14,26 @@
     width: 250px;
     height: 200px;
 }
+
+/* LABEL */
+.input-label {
+  color: #333;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* SELECT padronizado igual aos inputs */
+.styled-select {
+  padding: 12px;
+  border: 2px solid #d7d7d7;
+  font-size: 16px;
+  border-radius: 10px;
+  width: 100%;
+  transition: 0.2s;
+  background-color: white;
+}
+
+.styled-select:focus {
+  border-color: #3f51ff;
+  outline: none;
+}

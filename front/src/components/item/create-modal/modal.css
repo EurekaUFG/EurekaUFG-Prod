@@ -77,3 +77,56 @@
     background-color: #303fca;
     transform: scale(1.02);
 }
+
+.file-wrapper {
+  width: 100%;
+}
+
+/* Esse é o "input fake" que o usuário vê */
+.fake-file-input {
+  padding: 12px;
+  border: 2px solid #d7d7d7;
+  font-size: 16px;
+  border-radius: 10px;
+  width: 100%;
+  transition: 0.2s;
+  color: #777;              /* cor de placeholder */
+}
+
+.fake-file-input.has-file {
+  color: #000;              /* quando já tem arquivo, texto normal */
+}
+
+.fake-file-input:hover {
+  cursor: pointer;
+  border-color: #3f51ff;
+}
+
+.fake-file-input:active {
+  transform: scale(0.99);
+}
+
+/* Wrapper que imita o input normal */
+.select-wrapper {
+  border: 2px solid #d7d7d7;
+  border-radius: 10px;
+  padding: 0 8px;
+  transition: 0.2s;
+  background-color: #fff;
+}
+
+/* Borda azul quando o select está em foco */
+.select-wrapper:focus-within {
+  border-color: #3f51ff;
+}
+
+/* O select em si fica transparente, sem borda própria */
+.styled-select {
+  width: 100%;
+  border: none;
+  padding: 12px 4px;
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
