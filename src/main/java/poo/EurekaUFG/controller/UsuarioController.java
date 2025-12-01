@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import poo.EurekaUFG.model.dto.LoginUser;
 import poo.EurekaUFG.model.dto.RegisterUser;
+import poo.EurekaUFG.model.dto.UpdateUserRequest;
 import poo.EurekaUFG.model.entity.Usuario;
 import poo.EurekaUFG.service.UsuarioService;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,19 +39,58 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginUser dto) {
         try {
-            // ... (Chama o Service) ...
-            Object responseData = usuarioService.login(dto);
-            return ResponseEntity.ok(responseData);
-        } catch (RuntimeException e) {
-            // CORREÇÃO: Forçar o retorno de um JSON de erro válido
+            Usuario usuario = usuarioService.login(dto);
 
-            // Crie um mapa simples para o erro
+            Map<String, Object> response = new HashMap<>();
+            response.put("nome", usuario.getNome());
+            response.put("email", usuario.getEmail());
+            response.put("matricula", usuario.getMatricula());
+            response.put("curso", usuario.getCurso());
+            response.put("foto", usuario.getFoto());
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Unauthorized");
             errorResponse.put("message", e.getMessage());
-
-            // Retorne o status 401 Unauthorized com o mapa (JSON válido)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
+
+
+    @PutMapping("/me")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest request) {
+        try {
+            // 1. Buscar o usuário atual pelo email antigo
+            Usuario usuario = usuarioService.findByEmail(request.getEmailAntigo()); // precisamos enviar email antigo do frontend
+
+            // 2. Verifica se o novo email já existe (e não é o do próprio usuário)
+            if (!usuario.getEmail().equals(request.getEmail()) &&
+                    usuarioService.existsByEmail(request.getEmail())) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Email já está em uso por outro usuário.");
+            }
+
+            // 3. Atualiza campos
+            usuario.setNome(request.getNome());
+            usuario.setEmail(request.getEmail());
+            usuario.setMatricula(request.getMatricula());
+            usuario.setCurso(request.getCurso());
+            usuario.setFoto(request.getFoto());
+
+            // 4. Salva
+            Usuario atualizado = usuarioService.save(usuario);
+
+            return ResponseEntity.ok(atualizado);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+
 }

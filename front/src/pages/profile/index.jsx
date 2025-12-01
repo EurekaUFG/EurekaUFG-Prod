@@ -2,21 +2,21 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useAuth } from "../../context/AuthContext";
 import avatarPadrao from "../../assets/pessoa.jpg";
 
-
 const Profile = () => {
-    const { logout, user } = useAuth();
+    const { logout, user, login } = useAuth(); // ✅ Adicionei login para atualizar AuthContext
     const navigate = useNavigate();
 
     // Proteção da rota
     useEffect(() => {
-        if (!user) navigate("/home");
+        if (!user) {
+            navigate("/home", { replace: true });
+        }
     }, [user, navigate]);
 
-    // userData vem do user
+
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
@@ -48,35 +48,59 @@ const Profile = () => {
         setIsEditing(false);
     };
 
-    const handleSave = () => {
-        setUserData(tempData);
-        setIsEditing(false);
-        alert("Dados salvos com sucesso!");
+    const handleSave = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/users/me", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nome: tempData.nome,
+                    email: tempData.email,
+                    emailAntigo: userData.email, // envia email antigo
+                    matricula: tempData.matricula,
+                    curso: tempData.curso,
+                    foto: tempData.foto
+                }),
+            });
+
+            if (!response.ok) {
+                const errMsg = await response.text();
+                throw new Error(errMsg || "Erro ao salvar dados.");
+            }
+
+            const updatedUser = await response.json();
+            login(updatedUser); // atualiza AuthContext
+            setUserData(updatedUser);
+            setIsEditing(false);
+            alert("Dados salvos com sucesso!");
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao salvar alterações: " + err.message);
+        }
     };
+
 
     const handleLogout = () => {
         if (window.confirm("Tem certeza que deseja sair?")) {
-            logout();
-            navigate("/home");
+            logout();                  // limpa AuthContext
+            setUserData(null);          // limpa estado local do Profile
+            navigate("/home", { replace: true }); // redireciona imediatamente
         }
     };
+
 
     if (!userData) return null;
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
-            <Link
-                to="/home"
-                className="text-blue-600 hover:underline mb-4 inline-block"
-            >
+            <Link to="/home" className="text-blue-600 hover:underline mb-4 inline-block">
                 &larr; Voltar para Home
             </Link>
 
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-
-                {/* Cabeçalho */}
                 <div className="bg-blue-600 p-6 flex items-center gap-6">
-
                     <div className="relative">
                         <img
                             src={isEditing ? tempData.foto : userData.foto}
@@ -94,8 +118,12 @@ const Profile = () => {
                                     onChange={(e) => {
                                         const file = e.target.files[0];
                                         if (file) {
-                                            const preview = URL.createObjectURL(file);
-                                            setTempData((prev) => ({ ...prev, foto: preview }));
+                                            // Cria preview local e salva como base64 para enviar
+                                            const reader = new FileReader();
+                                            reader.onloadend = () => {
+                                                setTempData(prev => ({ ...prev, foto: reader.result }));
+                                            };
+                                            reader.readAsDataURL(file);
                                         }
                                     }}
                                 />
@@ -115,23 +143,17 @@ const Profile = () => {
                         ) : (
                             <h1 className="text-2xl font-bold text-white">{userData.nome}</h1>
                         )}
-
                         <p className="text-blue-100">{userData.curso}</p>
                     </div>
                 </div>
 
-                {/* Detalhes */}
                 <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                    {/* Informações Pessoais */}
                     <div>
                         <h3 className="text-gray-500 uppercase text-xs font-bold tracking-wider mb-2">
                             Informações Pessoais
                         </h3>
 
                         <div className="space-y-4">
-
-                            {/* Email */}
                             <div>
                                 <label className="block text-sm text-gray-600">Email Acadêmico</label>
                                 {isEditing ? (
@@ -147,7 +169,6 @@ const Profile = () => {
                                 )}
                             </div>
 
-                            {/* Matrícula */}
                             <div>
                                 <label className="block text-sm text-gray-600">Matrícula</label>
                                 {isEditing ? (
@@ -162,11 +183,9 @@ const Profile = () => {
                                     <p className="font-medium text-gray-500">{userData.matricula}</p>
                                 )}
                             </div>
-                            
                         </div>
                     </div>
 
-                    {/* Configurações */}
                     <div>
                         <h3 className="text-gray-500 uppercase text-xs font-bold tracking-wider mb-2">
                             Configurações
@@ -175,7 +194,7 @@ const Profile = () => {
                         {isEditing ? (
                             <div className="flex gap-2 mb-3">
                                 <button
-                                    onClick={handleSave}
+                                    onClick={handleSave} // ✅ chama backend
                                     className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-bold"
                                 >
                                     Salvar Alterações
@@ -197,12 +216,17 @@ const Profile = () => {
                             </button>
                         )}
 
-                        <button
-                            onClick={handleLogout}
-                            className="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded flex justify-between items-center transition"
-                        >
-                            Sair da Conta <span>🚪</span>
-                        </button>
+                        <div className="relative z-0"> {/* garante que nada sobreponha */}
+                            <button
+                                type="button"
+                                onClick={handleLogout}
+                                className="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded flex justify-between items-center transition z-10"
+                            >
+                                Sair da Conta <span>🚪</span>
+                            </button>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
