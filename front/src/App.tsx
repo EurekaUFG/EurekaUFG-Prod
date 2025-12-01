@@ -1,9 +1,9 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Home from "./pages/Login_Cadastro/home";
-import Login from "./pages/Login_Cadastro/login";
+import Home from "./pages/home";
+import Login from "./pages/login";
 import Profile from "./pages/profile";
-import Devolvidos from "./pages/Login_Cadastro/devolvidos";
+import Devolvidos from "./pages/devolvidos";
 
 function App() {
     return(

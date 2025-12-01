@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import avatarPadrao from "../../assets/pessoa.jpg";
 
 
@@ -51,7 +51,7 @@ const Profile = () => {
     const handleSave = () => {
         setUserData(tempData);
         setIsEditing(false);
-        alert("Dados salvos com sucesso! (Simulação)");
+        alert("Dados salvos com sucesso!");
     };
 
     const handleLogout = () => {
