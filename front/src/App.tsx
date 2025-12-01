@@ -4,6 +4,9 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import Devolvidos from "./pages/devolvidos";
+import Como_Funciona from "./pages/outras_pages/como_funciona";
+import FAQ from "./pages/outras_pages/FAQ";
+import Contatos from "./pages/outras_pages/contatos";
 
 function App() {
     return(
@@ -21,8 +24,13 @@ function App() {
 
                 <Route path="/minha-conta" element={<Profile />} />
 
-                {/* Rota de Teste */}
                 <Route path="/devolvidos" element={<Devolvidos />} />
+
+                <Route path="/como-funciona" element={<Como_Funciona/>}/>
+
+                <Route path="/contatos" element={<Contatos/>}/>
+
+                <Route path="/FAQ" element={<FAQ/>}/>
             </Routes>
         </Router>
     );

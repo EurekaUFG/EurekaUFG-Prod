@@ -105,7 +105,7 @@ export default function Home() {
                /* SE ESTIVER DESLOGADO: Mostra botão Entrar */
                /*onClick={handleLoginFake} className="bg-gray-800 text-white px-4 py-2 rounded"> so que escrito abaixo de button*/
                <button 
-               className="bg-gray-800 text-white px-4 py-2 rounded"
+               className="bg-gray-800 text-white px-4 py-2 rounded cursor-pointer"
                onClick={() => setIsLoginOpen(true)}
                >
                   Entrar (Teste)
@@ -129,7 +129,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <button
-                className="px-6 py-3 rounded bg-blue-600 text-white"
+                className="px-6 py-3 rounded bg-blue-600 text-white cursor-pointer"
                 onClick={() => {
                   const section = document.getElementById("grid-itens");
                   section?.scrollIntoView({ behavior: "smooth" });
@@ -137,9 +137,9 @@ export default function Home() {
               >
                 Buscar Itens
               </button>
-              <button className="px-6 py-3 rounded border">
+              <Link to="/como-funciona" className="px-6 py-3 rounded border cursor-pointer">
                 Como Funciona?
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -260,19 +260,19 @@ export default function Home() {
               <h3 className="font-semibold text-slate-900">Sobre</h3>
               <ul className="mt-4 space-y-2 text-sm text-slate-600">
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link to="/como-funciona" className="hover:text-blue-600">
                     Como Funciona
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link to="/FAQ" className="hover:text-blue-600">
                     FAQ
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link to="/contatos" className="hover:text-blue-600">
                     Contato
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

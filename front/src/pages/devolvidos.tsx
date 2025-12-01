@@ -227,19 +227,19 @@ export default function Home() {
               <h3 className="font-semibold text-slate-900">Sobre</h3>
               <ul className="mt-4 space-y-2 text-sm text-slate-600">
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link to="/como-funciona" className="hover:text-blue-600">
                     Como Funciona
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link to="/FAQ" className="hover:text-blue-600">
                     FAQ
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link to="/contatos" className="hover:text-blue-600">
                     Contato
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
