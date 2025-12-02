@@ -47,6 +47,7 @@ public class UsuarioController {
             response.put("matricula", usuario.getMatricula());
             response.put("curso", usuario.getCurso());
             response.put("foto", usuario.getFoto());
+            response.put("adm", usuario.getAdm()); // 👈 usa getAdm().put("adm", usuario.isAdm());
 
             return ResponseEntity.ok(response);
 
