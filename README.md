@@ -141,4 +141,13 @@ O frontend estará acessível em:
 ```bash
 http://localhost:3000
 ```
+4. Troubleshooting
 
+@tanstack/react-query
+
+rm -rf node_modules
+rm package-lock.json
+rm -rf .vite
+
+
+npm install
